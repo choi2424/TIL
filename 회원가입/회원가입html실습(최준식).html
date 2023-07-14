@@ -63,7 +63,6 @@
             let reg_name = RegExp(/^[가-힣]{2,10}$/);
             let reg_id = RegExp(/^[a-zA-Z]+[0-9a-zA-Z]{5,15}$/);
             let reg_pw = RegExp(/^.*(?=^.{9,15}$)(?=.*\d)(?=.*[a-z])(?=.*[~!@#$%^&*()_+{}|:<>?]).*$/);
-            let reg_phone = RegExp(/^\d{3}-\d{4}-\d{4}$/);
             let reg_email = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
 
             //입력필드 태그참조 변수
@@ -73,15 +72,34 @@
             let u_birth = document.getElementById("u_birth");
             let gender1 = document.getElementById("gender1");
             let gender2 = document.getElementById("gender2");
+            let auth_confirm = document.getElementById("auth_confirm");
+            let sTel = document.getElementById("sTel");
+
+            let hTel1 = document.getElementById("hTel1");
+            let hTel2 = document.getElementById("hTel2");
+            let hTel3 = document.getElementById("hTel3");
+
+            let sample2_postcode = document.getElementById("sample2_postcode");
+            let sample2_address = document.getElementById("sample2_address");
+            let sample2_detailAddress = document.getElementById("sample2_detailAddress");
             
             let email = document.getElementById("email");
             let email1 = document.getElementById("email1");
             let email2 = document.getElementById("email2");
-            email.value = email1.value + email2.value;
+            email.value = email1.value + "@" + email2.value;
+            let ec = document.getElementById("ec");
+            let sc = document.getElementById("sc");
+
 
             if(!empty_validate(u_name,"이름을 입력해주세요")) return;
+            if(!reg_validate(reg_name,u_name,"한글만 입력가능")) return;
+
             if(!empty_validate(u_id,"아이디를 입력해주세요")) return;
+            if(!reg_validate(reg_id,u_id,"영문 숫자만가능")) return;
+
             if(!empty_validate(u_pw,"비밀번호를 입력해주세요")) return;
+            if(!reg_validate(reg_pw,u_pw,"비밀번호는 영문소문자,숫자,특수문자를 혼합해야합니다")) return;
+
             if(u_pw.value != u_repw.value){
                 alert("비밀번호 확인이 틀립니다");
                 u_repw.value = "";
@@ -97,10 +115,39 @@
             }
 
 
-            if(!empty_validate(email,"메일을 입력해주세요"))return;
+            if(!empty_validate(email1,"메일을 입력해주세요"))return;
+            if(!empty_validate(email2,"메일을 입력해주세요"))return;
+            if(!reg_validate(reg_email, email, "이메일 형식이 잘못되었습니다")) return;
 
 
-            return;
+            if(!empty_validate(auth_confirm,"인증코드를 입력해주세요"))return;
+
+            if(!empty_validate(sTel,"휴대폰을 입력해주세요"))return;
+
+            if(!empty_validate(hTel1,"일반전화를 입력해주세요"))return;
+            if(!empty_validate(hTel2,"일반전화를 입력해주세요"))return;
+            if(!empty_validate(hTel3,"일반전화를 입력해주세요"))return;
+            
+            if(!empty_validate(sample2_postcode,"우편번호를 입력해주세요"))return;
+            if(!empty_validate(sample2_address,"주소를 입력해주세요"))return;
+            if(!empty_validate(sample2_detailAddress,"상세주소를 입력해주세요"))return;
+
+            if(!ec.checked) {
+                alert("메일 수신여부를 체크해주세요")
+                return;
+            }
+            
+            
+            if(!sc.checked) {
+                alert("SNS 수신여부를 체크해주세요")
+                return;
+            }
+
+            alert("유효성 검사 성공");
+            
+
+            document.getElementById("join_form").submit();
+            
 
         }
 
@@ -123,12 +170,13 @@
         data : 필드의 값
         msg : 유효성검사 메세지
         */
-        function reg_validate(re, target, data, msg ) {
+        function reg_validate(re, target, msg ) {
             if(!re.test(target.value)){
                 alert(msg);
                 target.focus();
                 return false;
             }
+            return true;
         }
 
     </script>
@@ -137,7 +185,7 @@
 <body>
     <div>
         <h1>기본정보</h1>
-        <form>
+        <form id="join_form" action="./join_ok.html" method="post" enctype="application/x-www-form-urlencoded">
             <table>
                 <!--이름-->
                 <tr>
@@ -182,7 +230,7 @@
                             <input type="button" value="메일인증선택" name="버튼;">
                         </p>
                         <p>
-                            <input type="text"> <input type="button" value="인증확인" class="asd1;"></td>
+                            <input type="text" id="auth_confirm"> <input type="button" value="인증확인" class="asd1;"></td>
                         </p>
                 </tr>
                 <!--연락처-->
@@ -191,17 +239,19 @@
                     <td>
                         <p>
                             휴대전화
-                            <select class="select1">
-                                <option>선택</option>
-                            </select>
-                            <input type="tel">-<input type="tel">
+                            <input type="text" id="sTel">
+
                         </p>
                         <p>
                             일반전화
-                            <select class="select1">
-                                <option>선택</option>
+                            <select class="select1" id="hTel1">
+                                <option value="">선택</option>
+                                <option value="02">서울</option>
+                                <option value="062">광주</option>
+                                <option value="042">대전</option>
                             </select>
-                            <input type="tel">-<input type="tel">
+                            
+                            <input type="text" id="hTel2">-<input type="text" id="hTel3">
                         </p>
                     </td>
                 </tr>
@@ -209,7 +259,7 @@
                 <tr>
                     <th>우편번호</th>
                     <td>
-                        <input id="sample2_postcode" type="text">
+                        <input id="sample2_postcode" type="text" value="">
                         <input type="button" onclick="sample2_execDaumPostcode()" class="asd1" value="주소검색">
                     </td>
                 </tr>
@@ -225,7 +275,10 @@
                 <!--정보 수신 여부-->
                 <tr>
                     <th>정보 수신 여부</th>
-                    <td>서비스및 이벤트소식을 <input type="checkbox">Email로 수신하겠습니다.<input type="checkbox">SNS로 수신하겠습니다.</td>
+                    <td>서비스및 이벤트소식을 
+                        <input type="checkbox" id="ec">Email로 수신하겠습니다.
+                        <input type="checkbox" id="sc">SNS로 수신하겠습니다.
+                    </td>
                 </tr>
                 </table>
                 <p class="submit" >
