@@ -1,0 +1,44 @@
+함수의 종류는 두가지
+1.호출해서 실행하고 마는것 (리턴이 없다)
+2.만들고 그결과를 돌려주는것(리턴이 있다)
+
+함수는 하나의 기능만을 해주는것이 권장사항이다 (그래야 유지보수가 편하기 때문)
+예 )
+function myDisplayer(some) {
+  document.getElementById("demo").innerHTML = some;
+}
+
+function myCalculator(num1, num2) {
+  let sum = num1 + num2;
+  return sum;
+}
+
+let result = myCalculator(5, 5);
+myDisplayer(result);
+
+둘중 하나를 택하라면 위에것을 더 권장함
+
+function myDisplayer(some) {
+  document.getElementById("demo").innerHTML = some;
+}
+
+function myCalculator(num1, num2) {
+  let sum = num1 + num2;
+  myDisplayer(sum);
+}
+
+let result = myCalculator(5, 5);
+
+메서드값에 handler 는 함수값을 넣어주거나 익명함수를 넣는다
+
+콜백함수를 쓰는이유
+함수안에 콜백함수를 쓴다면 상황,조건에 따라서 다른 함수들을 계속 집어넣어서 사용할 수 있다
+
+콜백은 작업이 끝난 후에 실행을 하고자 하는 용도로 사용한다.
+콜백은 비동기 코드를 작성 할 수 있도록 해주고, 여러문제와 에러들로 부터 안전하게 해준다
+
+비동기작업( callback, promise, async/await )으로 주로 처리하는 것.
+  -Ajax 요청작업
+  -파일읽기
+  -암호화/복호화
+  -작업예약
