@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>훈련과정 : 자바, 스프링, 오라클</h1>
+    <p id="java"></p>
+    <p id="spring"></p>
+    <p id="oracle"></p>
+    <hr>
+    <p>값을 변경하여, 출력하자 (영문으로)</p>
+    <p id="java2"></p>
+    <p id="spring2"></p>
+    <p id="oracle2"></p>
+    <script>
+        /*
+        클래스명 Dev
+        변수(필드) : java , spring, oracle
+        */
+        class Dev{
+            constructor(java,spring,oracle) {
+                this.java = java
+                this.spring = spring
+                this.oracle = oracle
+            }
+        }
+        const dev1 = new Dev("자바","스프링","오라클");
+
+        document.getElementById("java").innerHTML = dev1.java ;
+        document.getElementById("spring").innerHTML = dev1.spring ;
+        document.getElementById("oracle").innerHTML = dev1.oracle ;
+
+        dev1.java = "java";
+        dev1.spring = "spring";
+        dev1.oracle = "oracle";
+        
+        document.getElementById("java2").innerHTML = dev1.java ;
+        document.getElementById("spring2").innerHTML = dev1.spring ;
+        document.getElementById("oracle2").innerHTML = dev1.oracle ;
+
+    </script>
+</body>
+</html>

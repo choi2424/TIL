@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>모듈에서 함수 import 하기</h1>
+    
+    <p id="demo"></p>
+    <script type="module">
+        import message from "./message.js"; 
+
+        document.getElementById("demo").innerHTML = message(); // message.js 파일의 message함수를 참조하는 의미 
+    </script>
+</body>
+</html>
