@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>ajax 기술을 이해하자</h1>
+    <div id="demo">
+        <h2>XMLHttpRequest 객체</h2>
+        <button type="button" onclick="loadDoc()">내용 변경하기</button>
+    </div>
+
+    <script>
+        function loadDoc() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function() {
+                document.getElementById("demo").innerHTML = this.responseText;
+            }
+
+            xhttp.open("GET","./ajax_info.txt"); // 설정
+            xhttp.send();//작업요청 
+        }
+    </script>
+</body>
+</html>

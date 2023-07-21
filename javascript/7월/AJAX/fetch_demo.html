@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>fetch()메서드를 이용한 ajax작업</h1>
+    <p id="demo">버튼을 클릭하면 서버로부터 데이터를 갱신하게됩니다.</p>
+    <button type="button" onclick="fetchload()">클릭</button>
+    <script>
+        function fetchload() {
+            // "https://jsonplaceholder.typicode.com/posts/1" 
+            //  json데이터를 보내주는 기능
+
+            let url = "https://jsonplaceholder.typicode.com/posts/1";
+            fetch(url)
+                .then((response) => response.json()) // 서버로부터 JSON데이타를 성공적으로 받아오면 이 구문이 진행됨
+                .then((data) => {
+                    display(data);
+                })
+
+            let obj = JSON.parse(data)
+            document.getElementById("demo").innerHTML  
+        }
+
+        function display(data) {
+            console.log(data);
+
+            //let obj = JSON.parse(data)
+            document.getElementById("demo").innerHTML = 
+                `userid: ${data.userId}<br> id:${data.id}<br> title:${data.title}<br>body : ${data.body}`
+        }
+    </script>
+</body>
+</html>
