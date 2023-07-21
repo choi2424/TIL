@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>배열(array)문자열을 JSON으로 파싱(parsing)하기. </h1>
+    <p id="demo"></p>
+    <script>
+        /*
+        배열문법
+        const text = ["ford","BMW","Audi","Fiat"];
+
+        text[0].text[1]
+        */
+
+        // 배열의 문법표헌을 가지고 있는 문자열. 이런식으로 서버가 데이터를 넘겨줌
+        const text = '["Ford","BMW","Audi","Fiat"]' 
+
+        const myArr = JSON.parse(text); // const text = ["ford","BMW","Audi","Fiat"]
+
+        document.getElementById("demo").innerHTML = myArr[0];
+    </script>
+</body>
+</html>

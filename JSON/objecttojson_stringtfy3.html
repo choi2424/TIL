@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>object객체안에 function() 함수가 있을시 json문자열로 변환하면 제가된다 </h1>
+    <p id="demo1"></p>
+
+    <script>
+        const obj = {name : "홍길동" , age : function(){return 30;} , country : "대한민국"};
+        
+        //주석을 걸어서 테스트 해보기
+        obj.age = obj.age.toString(); //age : function(){return 30;} -> age : "function(){return 30;}" 
+        
+        
+        const myJOSN = JSON.stringify(obj); // age : function(){return 30;} 변환시 제거됨
+
+        console.log(myJOSN);
+
+        document.getElementById("demo1").innerHTML = myJOSN;
+    </script>
+</body>
+</html>

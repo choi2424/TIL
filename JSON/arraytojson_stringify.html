@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>array(배열)을 json 문자열로 변환</h1>
+    <p id="demo1"></p>
+    
+    <script>
+        const arr = ["John","Peter","Sally","Jane"];
+        const myJOSN = JSON.stringify(arr); // 문자열 ["John","Peter","Sally","Jane"];
+
+        console.log(myJOSN);
+
+        document.getElementById("demo1").innerHTML = myJOSN;
+    </script>
+</body>
+</html>

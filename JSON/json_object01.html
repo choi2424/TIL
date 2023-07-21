@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Json과 연관되어 사용되는 자바스크립트 object 사용하기</h1>
+    <p id="demo1"></p>
+    <p > object 객체의 값을 변경</p>
+    <p id="demo2"></p>
+    <script>
+        const myObj = {name : "홍길동", age : 100 , country : "대한민국"};
+        document.getElementById("demo1").innerHTML =
+        `내이름은 ${myObj.name}이고 나이는 ${myObj.age}, 국적은 ${myObj.country}`
+
+        myObj.age = 150;
+        myObj["country"] = "조선" ;
+
+        document.getElementById("demo2").innerHTML =
+        `내이름은 ${myObj.name}이고 나이는${myObj.age} , 국적은 ${myObj.country}`;
+
+    </script>
+</body>
+</html>

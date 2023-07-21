@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>날짜를 포함한 json문자열을 object객체로 변환사용하기.</h1>
+    <p id="demo1"></p>
+
+    <script>
+        const text = '{"name" : "홍길동" , "birth" : "1986-12-14" , "city" : "뉴욕"}';
+        const obj = JSON.parse(text);
+        
+        console.log(obj.birth); // 문자열
+
+        // 19번을 주석걸어 테스트해보기
+        obj.birth = new Date(obj.birth); // date객체로 날짜데이터로 변경
+        console.log(obj.birth);
+
+        document.getElementById("demo1").innerHTML = `${obj.name},${obj.birth}`
+    </script>
+</body>
+</html>
