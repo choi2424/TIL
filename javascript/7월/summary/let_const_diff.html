@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>let vs const 비교</h1>
+    <script>
+        // 복습 let는 변수 값을  바꿀 수 있음  const 는 상수 값을 바꾸면 에러가남
+        let x = 10;
+        x = 20;
+        const y = 10;
+        y = 20;
+        // const는 값을 바로줘야함 아래와 같은 상황에서 에러가 발생
+        let v;
+        v = 10;
+        //const z;
+        //z = 20;
+
+        const arr = [10, 20, 30, 40];
+        arr[0] = 100;
+    </script>
+</body>
+</html>
