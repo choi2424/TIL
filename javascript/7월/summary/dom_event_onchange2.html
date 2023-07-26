@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>JavaScript HTML Events</h2>
+    <select id="subject">
+        <option value="">선택하세요</option>
+        <option>HTML5</option>
+        <option>CSS3</option>
+        <option>JavaScript</option>
+    </select>
+    <p id="demo1"></p>
+    <script>
+
+        document.querySelector("#subject").onchange = currentSubjectInfo; // ()는 안한다
+
+        function currentSubjectInfo() {
+            const subject = document.querySelector("#subject");
+            document.querySelector("#demo1").innerHTML = subject.value
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #mydiv {
+            background-color: coral;
+            border : 2px solid; 
+            font-size: 20px;
+            color: white;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>이벤트 추가및 제거</h1>
+    <div id="mydiv">
+        <p>
+            자바스크립트는 예전에 웹브라우저에서만 실행이 되었지만,이제는 Node.js 런타임환경에서도
+            일반 환경에서도 실행이 가능하다.
+        </p>
+        <button type="button" id="btn1" onclick="a()">클릭(이벤트)</button>
+        <button type="button" id="btn" onclick="removeHandler()">클릭(이벤트제거)</button>
+    </div>
+    <p id="demo1"></p>
+
+    <script>
+
+        //이벤트 목록
+        document.getElementById("mydiv").addEventListener("mousemove",myfunction);
+
+        function a()  {
+            document.getElementById("mydiv").addEventListener("mousemove",myfunction);
+        }
+    
+
+        function myfunction(){
+            document.getElementById("demo1").innerHTML = Math.random();
+        }
+        function removeHandler() {
+            document.getElementById("mydiv").removeEventListener("mousemove",myfunction);
+        }
+    </script>
+</body>
+</html>
