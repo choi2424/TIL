@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>spread 문법</h1>
+
+    <script>
+        /*
+        const slime = {
+            name : "슬라임"
+        };
+
+        const cureSlime = {
+            name : "슬라임",
+            attribute : "cute"
+        };
+
+        const purpleCuteSlime = {
+            name : '슬라임',
+            attribute : "cute",
+            color : "purple"
+        };
+        */
+        
+        // 기존 객체를 건드리지 않고 , 새로운 객체를 만드는 의미
+
+        const slime = {
+            name : "슬라임"
+        };
+
+        const cuteSlime = {
+            ...slime,
+            attribute : 'cute'
+        };
+
+        const purpleCuteSlime = {
+            ...cuteSlime,
+            color : "purple"
+        };
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>비구조화 할당시 이름 변경하기</h1>
+
+    <script>
+        const animal = {
+            name : "강아지",
+            type : "개"
+        }
+        /*
+        const nickname = animal.neme;
+        console.log(animal.name);
+        */
+        const {name : nickname} = animal;
+        console.log(nickname);
+    </script>
+</body>
+</html>
