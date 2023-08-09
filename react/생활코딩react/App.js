@@ -91,7 +91,7 @@ function Update(props) {
         props.onUpdate(title, body);
       }}>
         <p><input type='text' name='title' placeholder='title' value={title} onChange={event => {
-          console.log(event.target.value);
+          console.log(event.target.value); // javascript + 1
           setTitle(event.target.value);
         }} /></p>
         <p><textarea name='body' placeholder='body' value={body} onChange={event => {
@@ -141,10 +141,29 @@ function App() { // 시작 함수컴포넌트 - <Header /> <Nav /> <Article />
       }
     }
     content = <Article title={title} body={body} />
-    contextControl = <li><a href={'/update/' + id} onClick={event => {
-      event.preventDefault();
-      setMode('UPDATE');
-    }}>Update</a></li>
+    //Update, Delete 버튼을 추가
+    contextControl = 
+    <>
+      <li>
+        <a href={'/update/' + id} onClick={event => {
+        event.preventDefault();
+        setMode('UPDATE');
+        }}>Update</a></li>
+      <li><input type='button' value='Delete' onClick={() => {
+        if (!window.confirm('삭제를 하시겠습니까?')) return;
+
+        // 삭제하고자 하는 id에 해당하는 것을 제외한 나머지 데이터를
+        // 새로운 배열에 추가하여, useState로 변경한다
+        const newTopics = [];
+        for (let i = 0; i < topics.length; i++){
+          if (topics[i].id !== id) {
+            newTopics.push(topics[i])
+          }
+        }
+        setTopics(newTopics);
+        setMode('WELCOME')
+      }}/></li>
+    </>
     
   } else if (mode === 'CREATE') {
     // 폼작업
@@ -158,15 +177,33 @@ function App() { // 시작 함수컴포넌트 - <Header /> <Nav /> <Article />
       setNextId(nextId + 1);
     }}></Create>
   } else if (mode === 'UPDATE') {
+    // id가 일치되는 데이터를 수정폼에 사용할 title,body 변수작업 
     let title, body = null;
     for (let i = 0; i < topics.length; i++){
       if (topics[i].id === id) {
         title = topics[i].title;
         body = topics[i].body;
+        break;
       }
     }
     content = <Update title={title} body={body} onUpdate={(title, body) => {
-
+      // 수정작업
+      console.log(title, body);
+      const newTopics = [...topics];
+      // 수정된 내용
+      const updatedTopic = { id: id, title: title, body: body };
+      for (let i = 0; i < newTopics.length; i++) {
+        if (newTopics[i].id === id) {
+          // { id: 3, title : 'javascript' , body : 'javascript is ...'}
+          // updetedTopic - > { id: 3, title : 'js' , body : 'js is ...'}
+          // newTopics[2] = { id: 3, title : 'js' , body : 'js is ...'}
+          newTopics[i] = updatedTopic;
+          break;
+        }
+      }
+      // 실수로 for문안에 setTopics(newTopics);setMode('READ'); 을 넣어서 1.html이 변경이안되는 오류 근데왜 2.3은 변경이됬을까??
+      setTopics(newTopics);
+      setMode('READ');
     }} />
   }
 
