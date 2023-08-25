@@ -155,4 +155,214 @@ SELECT DEPARTMENT_ID, EMP_NAME, SALARY,
             END
         END AS SAL_GRADE
 FROM EMPLOYEES;    
+
+-- hr 표준함수
+
+
+-- 문제1) EMPLOYEES 테이블에서 King의 정보를 소문자로 검색하고 사원번호, 성명, 담당업무(소문자로),부서번호를 출력하라.
+SELECT * FROM employees
+
+select lower(job_id),DEPARTMENT_ID,last_name,employee_id,FIRST_NAME
+from employees
+where last_name = 'King';
+
+
+
+
+-- 문제2) EMPLOYEES 테이블에서 King의 정보를 대문자로 검색하고 사원번호, 성명, 담당업무(대문자로),부서번호를 출력하라.
+select upper(job_id),DEPARTMENT_ID,FIRST_NAME,last_name,employee_id
+from employees
+where last_name = 'King';
+
+
+
+-- 문제3) DEPARTMENTS 테이블에서 (부서번호와 부서이름), 부서이름과 위치번호를 합하여 출력하도록 하라.
+select DEPARTMENT_NAME || ' ' || DEPARTMENT_ID as department_name_id
+from DEPARTMENTS;
+
+
+
+-- 문제4) EMPLOYEES 테이블에서 이름의 첫 글자가 ‘K’ 보다 크고 ‘Y’보다 적은 사원의 정보를 
+-- 사원번호, 이름, 업무, 급여, 부서번호를 출력하라. 
+-- 단 이름순으로 정렬하여라.
+select EMPLOYEE_ID, LAST_NAME, JOB_ID, SALARY, DEPARTMENT_ID
+from EMPLOYEES
+where LAST_NAME > 'K' and LAST_NAME < 'Y';
+
+
+-- 문제5) EMPLOYEES 테이블에서 20번 부서 중 이름의 길이 및 급여의 자릿수를 
+-- 사원번호, 이름, 이름의 자릿수(LENGTH), 급여, 급여의 자릿수를 출력하라.
+-- LENGTHB는 BYTE 혼동하지 말자!
+select EMPLOYEE_ID, LAST_NAME,length(LAST_NAME), SALARY , length(SALARY)
+from EMPLOYEES 
+where DEPARTMENT_ID = 20;
+
+-- 문제6) EMPLOYEES 테이블에서 이름 중 ‘e’자의 위치를 출력하라.
+select LAST_NAME,instr(LAST_NAME,'e')
+from employees;
+
+
+
+
+
+-- 문제7) 다음의 쿼리를 실행하고 결과를 출력하고 확인하라.
+SELECT  ROUND(4567.678),      
+        ROUND(4567.678, 0),  
+        ROUND(4567.678, 2),   
+        ROUND(4567.678, -2)  
+FROM dual;
+
+
+
+
+-- 문제8) EMPLOYEES 테이블에서 부서번호가 80인 사람의 급여를 30으로 나눈 나머지를 구하여 출력하라.
+select LAST_NAME, DEPARTMENT_ID, SALARY, mod(salary, 30)
+from employees
+where DEPARTMENT_ID = 80 ;
+    
+
+
+-- 문제9) EMPLOYEES 테이블에서 30번 부서 중 이름과 담당 업무를 연결하여 출력하여라. 
+SELECT LAST_NAME ||' '|| JOB_ID
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID = 30 ;
+
+
+-- 문제10) EMPLOYEES 테이블에서 현재까지 근무일 수가 몇주 몇일 인가를 출력하여라. 
+-- 단 근무 일수가 많은 사람 순으로 출력하여라.
+SELECT LAST_NAME, HIRE_DATE,
+TRUNC(SYSDATE - hire_date) AS "총근무 일수",
+TRUNC((SYSDATE - hire_date) / 7) AS "총근무주"
+FROM EMPLOYEES
+order by "총근무 일수" desc;
+
+
+
+
+-- 문제11) EMPLOYEES 테이블에서 부서 50에서 급여 앞에 $를 삽입하고 3자리마다 ,를 출력하라
+SELECT last_name, department_id, salary, TO_CHAR(salary, '$999,999')
+from employees
+where department_id = 50 ;
+
+-- 커미션이 not null이면, 급여에 커미션 적용되고, null이면 급여만 지급되게 조회.
+SELECT employee_id, salary, NVL2(commission_pct,salary + ( salary * commission_pct),salary) AS REAL_SALARY
+FROM employees;      
         
+SELECT CONCAT('가', ' ', 's job category is ')
+FROM dual;
+
+--  scott계정 접속 후 사용
+
+?
+
+-- 1. 업무(JOB)가 MANAGER 인 사원의 이름, 입사일 출력
+select ENAME,HIREDATE
+from emp
+where JOB = 'MANAGER';
+
+-- 2. 사원명이 WARD 인 사원의 급여, 커미션을 출력
+SELECT ENAME , SAL , COMM
+FROM EMP
+WHERE ENAME = 'WARD';
+
+-- 3. 30번 부서에 속하는 사원의 이름, 부서번호를 출력
+SELECT ENAME, DEPTNO
+FROM EMP
+WHERE DEPTNO = 30;
+
+-- 4-1. 급여가 1250을 초과, 3000이하인 사원의 이름, 급여를 출력
+SELECT ENAME , SAL
+FROM EMP
+WHERE SAL > 1250 AND SAL <= 3000;
+
+
+-- 4-2. 급여가 1250이상이고, 3000이하인 사원의 이름, 급여를 출력(범위가 포함됨)
+SELECT ENAME , SAL
+FROM EMP
+WHERE SAL BETWEEN 1250  AND 3000;
+
+
+-- 5. 커미션이 0 인 사원이 이름, 커미션을 출력
+SELECT ENAME,COMM 
+FROM EMP
+WHERE COMM = 0;
+
+
+-- 6-1. 커미션 계약을 하지 않은 사원의 이름츨 출력
+SELECT ENAME, COMM
+FROM EMP
+WHERE COMM IS NULL;
+
+-- 6-2. 커미션 계약을 한 사원의 이름을 출력
+SELECT ENAME, COMM
+FROM EMP
+WHERE COMM IS NOT NULL;
+
+-- 7. 입사일이 81/06/09 보다 늦은 사원이 이름, 입사일 출력(입사일을 기준으로 오름차순.)
+SELECT ENAME , HIREDATE
+FROM EMP
+WHERE HIREDATE > '1981-06-09'
+order by HIREDATE asc;
+
+
+
+-- 8. 모든 사원의 급여마다 1000을 더한 급여를 출력
+select ename , (sal + 1000) as sal2
+from emp;
+
+
+-- 9. FORD 의 입사일, 부서번호를 출력
+select ename,hiredate,deptno
+from emp
+where ename = 'FORD' 
+
+
+
+-- 10. 사원명이 ALLEN인 사원의 급여를 출력하세요.
+SELECT ENAME , SAL 
+FROM EMP
+WHERE ENAME = 'ALLEN';
+
+
+
+-- 11. ALLEN의 급여보다 높은 급여를 받는 사원의 사원명, 급여를 출력
+
+?
+
+?
+
+-- 12. 가장 높은/낮은 커미션을 구하세요.(최대값/최소값)
+
+?
+
+?
+
+-- 13. 가장 높은 커미션을 받는 사원의 이름을 구하세요.
+
+?
+
+?
+
+-- 14. 가장 높은 커미션을 받는 사원의 입사일보다 늦은 사원의 이름 입사일을 출력 
+
+?
+
+?
+
+-- 15. JOB이 CLERK 인 사원들의 급여의 합을 구하세요.
+
+?
+
+?
+
+-- 16. JOB 이 CLERK 인 사원들의 급여의 합보다 급여가 많은 사원이름을 출력.
+
+?
+
+-- 17. JOB이 CLERK 인 사원들의 급여와 같은 급여를 받는 사원의 이름, 급여를 출력(급여 내림차순으로)
+
+?
+
+?
+
+-- 18. EMP테이블의 구조출력
