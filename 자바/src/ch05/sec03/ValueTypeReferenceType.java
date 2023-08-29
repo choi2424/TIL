@@ -18,7 +18,7 @@ public class ValueTypeReferenceType {
 		 */		
 		int a = 10; // 기본타입 : 정수형 문법
 		
-		int[] arr = new int[] { 1 , 2 , 3 }; // 참조타입 : 배열문법
+		double[] arr = new double[] { 1 , 2 , 3 }; // 참조타입 : 배열문법
 		/* 참조타입은 
 		 * 1)int[] arr : 구문은 스택영역에 기억장소 생성,
 		 * 2)arr = new int[] {1,2,3} : 구문은 힙영역에 기억장소가 생성된다. 그리고, 생성된 기억장소의 주소가 스택영역에 대입된다. 

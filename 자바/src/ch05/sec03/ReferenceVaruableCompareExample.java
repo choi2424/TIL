@@ -16,7 +16,7 @@ public class ReferenceVaruableCompareExample {
 //		힙영역에 실제데이터가 저장되는 기억장소를 생성하고, 그곳의 주소를 대입하는 구문.
 		arr1 = new int[] { 1 , 2 , 3 };
 		arr2 = new int[] { 1 , 2 , 3 };
-		arr3 = arr2; // arr2에 저장되어 있는 주소를 arr3에 대입한다.
+		arr3 = arr2; // arr2에 저장되어 있는 주소를 arr3에 대입한다. 힙영역에 생성된 기억장소를 공유
 		
 //		주소비교
 		System.out.println(arr1 == arr2); // false
