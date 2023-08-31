@@ -23,7 +23,7 @@ public class ArrayCreateByValueListExample1 {
 		}
 		System.out.println("총합  : " + sum);
 		System.out.println("평균  : " + ((double)sum / scores.length));
-		
+
 //		2)참조타입을 이용한 배열
 		
 		String[] season = { "Spring" , "Summer" , "Fall" , "Winter" };
