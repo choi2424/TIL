@@ -1,9 +1,9 @@
-package sec07.exam04;
+package sec07.exam05;
 
 public class CarExample {
 
 	public static void main(String[] args) {
-		Car a = new Car();
+		Car a = new Car("자가용");
 		Car b = new Car("제네시스");
 		Car c = new Car("제네시스","검정색");
 		Car d = new Car("제네시스","검정색",250);

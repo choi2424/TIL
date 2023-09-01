@@ -1,6 +1,7 @@
-package sec07.exam04;
+package sec07.exam05;
 
 // 생성자 오버로딩(overloading) : 생성자를 여러개 정의하는 의미
+// 새로운 생성자를 정의하지 않고, 기존 생성자를 호출하는 예제. this()
 public class Car {
 	
 //	필드선언
@@ -12,15 +13,12 @@ public class Car {
 //	생성자 선언 4개 : 생성자 오버로딩(overloading)
 //	매개변수의 개수와 타입의 순서가 다른 경우만 문법이 허용된다.
 	
-	Car() {} // 디폴트 생성자는 다른 생성자선언 때문에 자동으로 생성되지 않으므로 , 수동으로 선언함.
-	
 	Car(String model) {
-		this.model = model;
+		this(model,"은색",250); // 24라인 생성자 호출
 	}
 	
 	Car(String model , String color) {
-		this.model = model;
-		this.color = color;
+		this(model,color,250); // 24라인 생성자 호출
 	}
 	
 	Car(String model, String color , int maxSpeed){
@@ -28,10 +26,5 @@ public class Car {
 		this.color = color;
 		this.maxSpeed = maxSpeed;
 	}
-	/* 상단의 매개변수의 개수와 타입순서가 동일함으로 오류가 발생
-	 * Car(String m, String c, int ms){ 
-	 * this.model = m;
-	 * this.color = c;
-	 * this.maxSpeed = ms; }
-	 */
+	
 }
