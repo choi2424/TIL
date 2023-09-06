@@ -6,6 +6,8 @@ public class Phone {
 	public String model;
 	public String color;
 	
+//	생성자 : 컴파일러에 의하여 기본생성자가  자동생성
+	
 //	메서드 선언
 	public void bell() {
 		System.out.println("벨이 울립니다.");
