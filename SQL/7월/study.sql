@@ -327,42 +327,115 @@ WHERE ENAME = 'ALLEN';
 
 -- 11. ALLEN의 급여보다 높은 급여를 받는 사원의 사원명, 급여를 출력
 
-?
+select ename , sal
+from emp
+where sal > ( select sal from emp where ename = 'ALLEN');
 
-?
+
 
 -- 12. 가장 높은/낮은 커미션을 구하세요.(최대값/최소값)
 
-?
+select min(comm),max(comm)
+from emp;
 
-?
+
+
 
 -- 13. 가장 높은 커미션을 받는 사원의 이름을 구하세요.
 
-?
+SELECT ename 
+FROM emp
+where comm = (SELECT max(comm) FROM emp);
 
-?
 
 -- 14. 가장 높은 커미션을 받는 사원의 입사일보다 늦은 사원의 이름 입사일을 출력 
 
-?
+select ename,HIREDATE
+from emp
+where HIREDATE > (select HIREDATE from emp where comm = (select max(comm) from emp));
 
-?
+
 
 -- 15. JOB이 CLERK 인 사원들의 급여의 합을 구하세요.
+select job , sum(sal)
+from emp
+group by job
+having job = 'CLERK';
 
-?
 
-?
 
 -- 16. JOB 이 CLERK 인 사원들의 급여의 합보다 급여가 많은 사원이름을 출력.
-
-?
+SELECT ename
+from emp
+where (select sum(sal)from emp where job = 'CLERK') < SAL;
 
 -- 17. JOB이 CLERK 인 사원들의 급여와 같은 급여를 받는 사원의 이름, 급여를 출력(급여 내림차순으로)
-
-?
-
-?
+select ename , sal
+from emp
+where sal in (SELECT sal from emp job = 'CLERK') 
+order by sal desc;
 
 -- 18. EMP테이블의 구조출력
+
+-- jobs테이블과 jobs_history테이블을 조인하여 , 사원번호 . job_id , 시작날짜 , 종료날짜 , 당담부서를 조회하라
+
+SELECT jh.employee_id , j.job_id , jh.start_date ,jh.end_date , jh.department_id
+FROM jobs j, job_history jh
+where jh.job_id = j.job_id;
+
+-- 부서가 담당한 프로젝트 정보를 조회하라 . 단 부서코드 , 부서이름 , 사원번호 ,시작날짜 ,종료날짜 컬럼사용
+SELECT j.department_id , d.department_name , j.employee_id , j.start_date , j.end_date
+FROM job_history j , departments d
+where j.department_id = d.department_id ;
+/*
+문제
+사원테이블 : EMPLOTEES 프로젝트 내역 테이블 : JOB_HISTORY
+질문1> 2테이블을 참조하여 사원의 프로젝트 정보(JOB_ID) 의  데이터를 조회하라
+(컬럼은 사원번호 , 사원이름 , 부서코드 , 시작날짜 , 종료날짜 , 프로젝트ID(JOB_ID))
+
+INNER JOIN 
+    -오라클 구문
+    -ANSI-SQL 구문 
+*/
+-- 오라클 구문
+SELECT E.EMPLOYEE_ID , E.EMP_NAME , E.DEPARTMENT_ID , j.start_date , j.end_date , j.job_id
+FROM employees E , JOB_HISTORY J
+WHERE j.job_id = E.JOB_ID;
+
+-- ANSI-SQL 구문
+SELECT E.EMPLOYEE_ID , E.EMP_NAME , E.DEPARTMENT_ID , j.start_date , j.end_date , j.job_id
+FROM employees E INNER JOIN JOB_HISTORY J
+ON j.job_id = E.JOB_ID;
+
+/*
+질문2> 2테이블을 참조하여 사원의 프로젝트 정보(JOB_ID) 의  데이터를 조회하라
+사원중 프로젝트 정보 데이터가 존재하지 않는 사원도 포함해라.
+(컬럼은 사원번호 , 사원이름 , 부서코드 , 시작날짜 , 종료날짜 , 프로젝트ID(JOB_ID))
+    -오라클 구문
+    -ANSI-SQL 구문 
+*/
+-- 오라클 구문
+SELECT E.EMPLOYEE_ID , E.EMP_NAME , E.DEPARTMENT_ID , j.start_date , j.end_date , j.job_id
+FROM employees E , JOB_HISTORY J
+WHERE j.job_id(+) = E.JOB_ID;
+-- ANSI 구문
+SELECT E.EMPLOYEE_ID , E.EMP_NAME , E.DEPARTMENT_ID , j.start_date , j.end_date , j.job_id
+FROM employees E LEFT JOIN JOB_HISTORY J
+ON j.job_id = E.JOB_ID;
+
+/*
+질문3> 2테이블을 참조하여 사원의 프로젝트 정보데이타가 존재하지않는 사원을 조회하라
+(컬럼은 사원번호 , 사원이름 , 부서코드 , 시작날짜 , 종료날짜 , 프로젝트ID(JOB_ID))
+    
+*/
+-- 오라클 구문
+SELECT E.EMPLOYEE_ID , E.EMP_NAME , E.DEPARTMENT_ID , j.start_date , j.end_date , j.job_id
+FROM employees E , JOB_HISTORY J
+WHERE j.job_id(+) = E.JOB_ID
+AND j.job_id IS NULL;
+
+-- ANSI 구문
+SELECT E.EMPLOYEE_ID , E.EMP_NAME , E.DEPARTMENT_ID , j.start_date , j.end_date , j.job_id
+FROM employees E LEFT JOIN JOB_HISTORY J
+ON j.job_id = E.JOB_ID
+WHERE j.job_id is null;
