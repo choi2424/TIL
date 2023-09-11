@@ -1,5 +1,6 @@
 package ch09.sec07.exam02;
 
+//	인터페이스를 익명구현객체 사용
 public class Home {
 
 //	RemoteControl rc = new RemoteControl(); 인터페이스는 객체생성 불가능.
@@ -37,6 +38,11 @@ public class Home {
 			}
 		};
 		
+		rc.turnOn();
+		rc.turnOff();
+	}
+	
+	public void use3(RemoteControl rc) {
 		rc.turnOn();
 		rc.turnOff();
 	}
