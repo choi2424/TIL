@@ -2,6 +2,8 @@ package ch12.sec03.exam02;
 
 import java.util.HashSet;
 
+//	HashSet 컬렉션 클래스 : 객체를 저장시 사용하는 기능제공. 동일객체를 중복저장 불가능
+//	이 예제를 테스트할 경우 Student 클래스 hashCode(), equals()의 재정의 구문을 주석을 번갈아 사용함으로써 확인
 public class HashSetExample {
 
 	public static void main(String[] args) {
