@@ -209,17 +209,39 @@ ORDER BY e.employee_id ASC;
 
 -- 관리자 이름(fist_name)을 조회합니다. 단, 관리자가 없는 사원정보도 출력 결과에 포함시켜 출력한다.
 
+-- 2001~2003년사이 입사한 사원의 관리자 번호
+SELECT e.manager_id , e.first_name AS M_NAME
+FROM employees E 
+WHERE TO_CHAR(e.hire_date,'YYYY') <= 2003 
+AND TO_CHAR(e.hire_date,'YYYY') >= 2001;
 
+SELECT e.first_name , e.hire_date ,A.FIRST_NAME AS M_NAME, e.manager_id
+FROM EMPLOYEES E , employees A
+WHERE e.manager_id = a.employee_id(+)
+AND TO_CHAR(e.hire_date,'YYYY') BETWEEN 2001 AND 2003 ;
 
 
 --13. ‘Sales’ 부서에 속한 직원의 이름(first_name), 급여(salary), 부서이름(department_name)을 조회하시오. 
 
 -- 단, 급여는 100번 부서의 평균보다 적게 받는 직원 정보만 출력되어야 한다. 
+-- 100번 부서의 평균
+SELECT ROUND(AVG(SALARY))
+FROM employees
+WHERE department_id = 100;
 
+SELECT e.first_name , e.salary , d.department_name
+FROM employees E , departments D
+WHERE e.department_id = D.department_id
+AND d.department_name = 'Sales' 
+AND e.salary < (SELECT ROUND(AVG(SALARY)) FROM employees WHERE department_id = 100);
 
 
 
 --14. Employees 테이블에서 입사한달(hire_date)별로 인원수를 조회하시오.
+SELECT TO_CHAR(hire_date,'YYYY-MM'), COUNT(*)
+FROM employees
+GROUP BY TO_CHAR(hire_date,'YYYY-MM') 
+ORDER BY TO_CHAR(hire_date,'YYYY-MM') ASC;
 
 
 
@@ -227,15 +249,64 @@ ORDER BY e.employee_id ASC;
 --15. 부서별 직원들의 최대, 최소, 평균급여를 조회하되, 
 
 -- 평균급여가 ‘IT’ 부서의 평균급여보다 많고, ‘Sales’ 부서의 평균보다 적은 부서 정보만 출력하시오. 
+SELECT AVG(SALARY)
+FROM employees E , departments D
+WHERE e.department_id = D.department_id
+AND D.DEPARTMENT_NAME = 'IT';
+
+SELECT AVG(SALARY)
+FROM employees E , departments D
+WHERE e.department_id = D.department_id
+AND D.DEPARTMENT_NAME = 'Sales';
 
 
-
+SELECT MAX(SALARY), MIN(SALARY),AVG(SALARY)
+FROM employees E , departments D
+WHERE e.department_id = D.department_id
+GROUP BY E.department_id
+HAVING AVG(SALARY) > (SELECT AVG(SALARY)
+                        FROM employees E , departments D
+                        WHERE e.department_id = D.department_id
+                        AND D.DEPARTMENT_NAME = 'IT')                        
+AND AVG(SALARY) <   (SELECT AVG(SALARY)
+                        FROM employees E , departments D
+                        WHERE e.department_id = D.department_id
+                        AND D.DEPARTMENT_NAME = 'Sales');
 
 --16. 각 부서별로 직원이 한명만 있는 부서만 조회하시오. 
 
 -- 단, 직원이 없는 부서에 대해서는 ‘<신생부서>’라는 문자열이 출력되도록 하고,
 
 -- 출력결과는 다음과 같이 부서명이 내림차순 으로 정렬되어야한다. 
+
+--기초 데이터
+SELECT * 
+FROM employees E , departments D
+WHERE e.department_id = d.department_id;
+
+-- 부서안에 부서원이 없는 데이터
+
+-- 사원 테이블에 존재하는 부서
+SELECT DISTINCT department_id FROM employees;
+--부서 테이블 : 27건
+SELECT COUNT(*) FROM departments;
+
+-- 사원이 없는부서 : 27건 - 11건 = 16건  
+
+-- 각 부서별로 직원
+SELECT E.department_id , D.DEPARTMENT_NAME , COUNT(*)
+FROM employees E , departments D
+WHERE e.department_id = d.department_id
+GROUP BY e.department_id , D.DEPARTMENT_NAME
+HAVING COUNT(*) = 1
+ORDER BY d.department_name ASC;
+
+SELECT d.department_name, NVL(TO_CHAR(MIN(e.employee_id)), '<신생부서>') AS employee_id
+FROM departments d LEFT JOIN employees e 
+ON d.department_id = e.department_id
+GROUP BY d.department_name
+HAVING COUNT(e.employee_id) <= 1 
+ORDER BY d.department_name DESC;
 
 
 
