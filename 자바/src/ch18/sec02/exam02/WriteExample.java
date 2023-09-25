@@ -19,7 +19,7 @@ public class WriteExample {
 //			버퍼(빨대만) 내용 쓰기 - test2,db
 			os.flush();
 			
-//			스트림객체닫기(빨대제가)
+//			스트림객체닫기(빨대제거)
 			os.close();
 			
 		} catch (IOException e) {
