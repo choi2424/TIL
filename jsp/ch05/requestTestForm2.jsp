@@ -8,7 +8,7 @@
 </head>
 <body>
 <h2>request 예제 - 요청메소드</h2>
-<form method="get" action="requestProcess1.jsp">
+<form method="post" action="requestProcess2.jsp">
 	이름 : <input type="text" name="name" placeholder="이름 입력"><br>
 	나이 : <input type="number" name="age" placeholder="나이 입력"><br>
 	성별 : <input type="radio" name="gender" value="male" checked>남자
