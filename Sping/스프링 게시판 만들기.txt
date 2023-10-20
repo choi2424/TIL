@@ -1,0 +1,45 @@
+프로젝트 생성
+	1) 기본프로젝트 pom.xml에서
+	   <properties> 기준 밑으로 복사
+	  
+	   새프로젝트 pom.xml 에 동일한 <properties> 삭제및 붙여쓰기
+
+	2) Maven Update 메뉴 작업
+	     - JDK Version 확인
+	     - Maven Dependency Library 확인
+	
+	3) 기존프로젝트 참고하여 web.xml 변경
+	  <web-app>  2.5 > 3.1 변경
+	
+	  - 한글깨짐 복사 필터설정
+	
+	4) log4j sql 로그를 위한 환경설정파일 2개 복사
+	-  log4jdbc.log4j2.properties, logback.xml 2개파일을 src/main/resources 폴더에 복사
+	
+	5) log4j.xml 에서 내용중
+	   추가부분을 신규프로젝트에 복사한다
+	
+	6) root-context.xml 파일의 내용 전부를 신규프로젝트 root-context.xml파일에 복사한다
+		<주의사항>
+		  - 오라클 계정 및 비밀번호 확인
+		  <property name="username" value="ora_user"></property>
+		  <property name="password" value="1234"></property>
+
+		  - 패키지명 확인해서 신규프로젝트 패키지명으로 변경해야 한다
+		  <!-- service 패키지 -->	
+		  <context:component-scan base-package="com.demo.service" />
+	  	  <!-- mapper 패키지 -->
+		  <mybatis-spring:scan base-package="com.demo.mapper"/>
+
+		servlet-context.xml 은 현재는 작업을 안해도 된다
+
+-------------------------------------------------------------------------------------------------
+
+프로젝트 패키지 구성
+
+	기본패키지(컨트롤러) : com.cjmall.web
+	서비스 : com.cjmall.service
+	Mapper : com.cjmall.mapper
+
+	Mapper 폴더 생성 : src/main/resources 위치에 
+		  com/cjmall/mapper 폴더를 계층적으로 각각 생성
