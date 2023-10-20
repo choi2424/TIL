@@ -16,7 +16,7 @@
 		ORDER BY BNO DESC
    </select>
    
-   <!-- 공통된 SQL구문작업 -->
+   <!-- 공통된 SQL구문작업 : 검색조건 -->
    <sql id="criteria">
    		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
    			<foreach collection="typeArr" item="type">
@@ -41,10 +41,10 @@
    <!-- 게시판  -->
    <select id="getListWithPaging" resultType="com.demo.domain.BoardVO" parameterType="com.demo.domain.Criteria">
    		<![CDATA[
-   		SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE
+   		SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE , VIEWCOUNT
 		FROM (
     		SELECT /*+ INDEX_DESC(board pk_board) */
-    			ROWNUM RN, BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE 
+    			ROWNUM RN, BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE , VIEWCOUNT
     		FROM BOARD 
     		WHERE
 			]]>
@@ -73,6 +73,13 @@
 		FROM BOARD 
 		WHERE BNO=#{bno}
    </select>
+   
+   <!-- 조회수 증가작업 -->
+   <update id="readCount" parameterType="Long">
+   		UPDATE BOARD
+		SET viewcount = viewcount + 1
+		WHERE BNO = #{bno}   		
+   </update>
    
    <!-- 게시글 수정 -->
    <update id="modify" parameterType="com.demo.domain.BoardVO">

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.domain.BoardVO;
 import com.demo.domain.Criteria;
@@ -88,6 +89,8 @@ public class BoardController {
 		
 		PageDTO pageDTO = new PageDTO(cri, total);
 		model.addAttribute("pageMaker",pageDTO);
+		
+		log.info("페이징 정보 : " + pageDTO);
 	}
 
 	//	매핑주소 /board/get?bno=게시물번호
@@ -105,26 +108,41 @@ public class BoardController {
 
 	//	매핑주소 /board/modify   
 	//	수정하기
+	//	RedirectAttributes 페이지(주소)를 이동시 파라미터정보를 제공하는 목적으로 사용 
 	@PostMapping("/modify")
-	public String modify(BoardVO board) {
+	public String modify(BoardVO board, Criteria cri , RedirectAttributes rttr) {
 
 		log.info("수정 데이터 : " + board);;
+		log.info("Criteria : " + cri);
 		//	   DB저장
 		boardService.modify(board);
+		
+	//	검색과 페이지정보를 이동주소(/board/list)의 파라미터로 사용하기 위한 작업
+//		rttr.addAttribute("pageNum", cri.getPageNum());
+//		rttr.addAttribute("amount", cri.getAmount());
+//		rttr.addAttribute("type", cri.getType());
+//		rttr.addAttribute("keyword", cri.getKeyword());
 
-		return "redirect:/board/list";
+	//	/board/list?pageNum=값&amount=값&type=값&keyword=값
+		return "redirect:/board/list" + cri.getListLink(); // list(Criteria cri, Model model)
 	}
 
 	//	매핑주소 /board/delete   
 	//	삭제하기
 	@GetMapping("/delete")
-	public String delete(@RequestParam("bno") Long bno) {
+	public String delete(@RequestParam("bno") Long bno , Criteria cri , RedirectAttributes rttr) {
 
 		log.info("삭제할 번호  : " + bno);
 
 		//   	DB작업
 		boardService.delete(bno);
+		
+//		검색과 페이지정보를 이동주소(/board/list)의 파라미터로 사용하기 위한 작업
+//			rttr.addAttribute("pageNum", cri.getPageNum());
+//			rttr.addAttribute("amount", cri.getAmount());
+//			rttr.addAttribute("type", cri.getType());
+//			rttr.addAttribute("keyword", cri.getKeyword());
 
-		return "redirect:/board/list";
+		return "redirect:/board/list" + cri.getListLink();
 	}
 }

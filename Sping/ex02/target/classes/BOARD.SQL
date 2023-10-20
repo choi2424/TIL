@@ -7,8 +7,11 @@ CREATE TABLE BOARD (
     WRITER   VARCHAR2(100)  NOT NULL,        -- 작성자
     REGDATE     DATE     DEFAULT SYSDATE,    -- 등록일
     UPDATEDDATE DATE     DEFAULT SYSDATE,    -- 수정일
+    VIEWCOUNT   NUMBER  DEFAULT 0,           -- 조회수
     CONSTRAINT PK_BOARD PRIMARY KEY(BNO)
 );
+-- 조회수 작업
+
 
 -- 테이블 삭제
 DROP TABLE BOARD;
@@ -68,5 +71,12 @@ UPDATE BOARD
 SET WRITER = 'USER02'
 WHERE BNO IN (1145 , 1100 , 198 , 138 , 174 , 155 , 130 , 17 , 112 , 162 , 182 , 1201);
 
+-- 조회수 증가작업
+UPDATE BOARD
+SET viewcount = viewcount + 1
+WHERE BNO = #{bno};
+
+UPDATE BOARD
+SET viewcount = 0;
 
 COMMIT;

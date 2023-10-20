@@ -68,31 +68,35 @@
 						</div>
 						<!-- 절대경로 /board/modify -->
 
-						<form role="form" method="post" action="./modify">
+						<form role="form" method="post" action="./modify">						
 							<div class="box-body">
 								<div class="form-group">
-									<label for="bno">bno</label> <input type="text"
-										class="form-control" id="bno" name="bno" value="${board.bno }"  readonly>
+									<label for="bno">Bno</label>
+									<input type="hidden" name="pageNum" id="pageNum" value="${cri.pageNum}" />
+									<input type="hidden" name="amount" id="amount" value="${cri.amount}" />
+									<input type="hidden" name="type" id="type" value="${cri.type}" />
+									<input type="hidden" name="keyword" id="keyword" value="${cri.keyword}" /> 
+									<input type="text"class="form-control" id="bno" name="bno" value="${board.bno }"  readonly>
 								</div>
 								<div class="form-group">
-									<label for="title">Title</label> <input type="text"
-										class="form-control" id="title" name="title" value="${board.title }"  >
+									<label for="title">Title</label> 
+									<input type="text" class="form-control" id="title" name="title" value="${board.title }"  >
 								</div>
 								<div class="form-group">
-									<label for="writer">WRITER</label> <input type="text"
-										class="form-control" name="writer" id="writer" value="${board.writer }"  readonly>
+									<label for="writer">WRITER</label> 
+									<input type="text"class="form-control" name="writer" id="writer" value="${board.writer }"  readonly>
 								</div>
 								<div class="form-group">
 									<label for="content">Content</label>
 									<textarea class="form-control" rows="3" id="content" name="content" >${board.content }</textarea>
 								</div>
 								<div class="form-group">
-									<label for="regdate">regdate</label> <input type="text"
-										class="form-control" id="regdate" name="regdate" value="<fmt:formatDate value='${board.regdate}' pattern='yyyy/MM/dd' />"  readonly>
+									<label for="regdate">regdate</label> 
+									<input type="text" class="form-control" id="regdate" name="regdate" value="<fmt:formatDate value='${board.regdate}' pattern='yyyy/MM/dd' />"  readonly>
 								</div>
 								<div class="form-group">
-									<label for="updateddate">updateddate</label> <input type="text"
-										class="form-control" id="updateddate" name="updateddate" value="<fmt:formatDate value='${board.updateddate}' pattern='yyyy/MM/dd' />"  readonly>
+									<label for="updateddate">updateddate</label> 
+									<input type="text" class="form-control" id="updateddate" name="updateddate" value="<fmt:formatDate value='${board.updateddate}' pattern='yyyy/MM/dd' />"  readonly>
 								</div>
 							</div>
 
@@ -112,11 +116,12 @@
 	</footer>
 	<%@include file="/WEB-INF/views/comm/plug-in.jsp"%>
 	<script>
+	
 		document.getElementById("btn_get").addEventListener("click",fn_get);
 
 		function fn_get() {
 			
-			location.href = "/board/get?bno=${board.bno }";;
+			history.back();
 			
 		}
 	</script>

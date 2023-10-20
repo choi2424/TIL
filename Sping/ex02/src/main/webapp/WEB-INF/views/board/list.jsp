@@ -77,17 +77,19 @@
                            <tbody>
                               <tr>
                                  <th style="width: 10%">번호</th>
-                                 <th style="width: 50%">제목</th>
+                                 <th style="width: 40%">제목</th>
                                  <th style="width: 20%">작성자</th>
-                                 <th style="width: 200px">등록일</th>
+                                 <th style="width: 20%">등록일</th>
+                                 <th style="width: 10%">조회수</th>
                               </tr>
 
                               <c:forEach items="${ list }" var="board">
                                  <tr>
-                                    <td>${ board.bno }</td>
+                                    <td>${board.bno }</td>
                                     <td><a class="move" href="#" data-bno="${board.bno}">${ board.title }</a></td>
-                                    <td>${ board.writer }</td>
+                                    <td>${board.writer }</td>
                                     <td><fmt:formatDate value="${ board.regdate }" pattern="yyyy/MM/dd" /></td>
+                                    <td>${board.viewcount }</td>
                                  </tr>
                               </c:forEach>
 
@@ -126,28 +128,32 @@
                                  </ul>
                               </nav>
                            </div>
+
+                           <!-- 검색기능 -->
                            <div class="col-6">
                               <form action="/board/list" method="get">
                                  <select name="type">
                                     <option selected>검색종류선택</option>
-                                    <option value="T">제목</option>
-                                    <option value="C">내용</option>
-                                    <option value="W">작성자</option>
-                                    <option value="TC">제목 or 내용</option>
-                                    <option value="TW">제목 or 작성자</option>
-                                    <option value="TWC">제목 or 작성자 or 내용</option>
+                                    <option value="T" ${pageMaker.cri.type == 'T'?'selected':''}>제목</option>
+                                    <option value="C" ${pageMaker.cri.type == 'C'?'selected':''}>내용</option>
+                                    <option value="W" ${pageMaker.cri.type == 'W'?'selected':''}>작성자</option>
+                                    <option value="TC" ${pageMaker.cri.type == 'TC'?'selected':''}>제목 or 내용</option>
+                                    <option value="TW" ${pageMaker.cri.type == 'TW'?'selected':''}>제목 or 작성자</option>
+                                    <option value="TWC" ${pageMaker.cri.type == 'TWC'?'selected':''}>제목 or 작성자 or 내용</option>
                                  </select>
-                                 <input type="text" name="keyword" value="" />
+                                 <input type="text" name="keyword" value="${pageMaker.cri.keyword}" />
                                  <input type="hidden" name="pageNum" value="1" />
                                  <input type="hidden" name="amount" value="${pageMaker.cri.amount}" />
                                  <button type="submit" class="btn btn-primary">검색</button>
                               </form>
-                              <!-- [이전] 1  2  3  4  5  6  [다음] 페이지 이동목적으로 클릭할 때 사용  -->
+                              <!--1)페이지번호 [이전] 1  2  3  4  5  6  [다음] 페이지 이동목적으로 클릭할 때 사용  -->
+                              <!--2)목록에서 제목 클릭할 때 사용  action="/board/get"-->
                               <form id="actionForm" action="/board/list" method="get">
                                  <input type="hidden" name="pageNum" id="pageNum" value="${pageMaker.cri.pageNum}" />
                                  <input type="hidden" name="amount" id="amount" value="${pageMaker.cri.amount}" />
                                  <input type="hidden" name="type" id="type" value="${pageMaker.cri.type}" />
                                  <input type="hidden" name="keyword" id="keyword" value="${pageMaker.cri.keyword}" />
+                                 <input type="hidden" name="bno" id="bno" />
                               </form>
                            </div>
                         </div>
@@ -177,11 +183,14 @@
       const movePages = document.getElementsByClassName("movepage");
       Array.from(movePages).forEach(function(mv_page) {
          // actionForm폼 전송
+         
          mv_page.addEventListener("click",function(event){
             event.preventDefault();
             //	data-page="1"
             // console.log("페이지번호" , event.target.dataset.page);
+            
             document.getElementById("pageNum").value = event.target.dataset.page;
+            actionForm.setAttribute("action","/board/list");
 
             
             actionForm.submit(); // board/list
@@ -190,18 +199,27 @@
       });
 
       // 제목클릭시 이벤트 설정 : 게시물읽기
+      // <a class="move">제목</a>
       const moves = document.getElementsByClassName("move");
       Array.from(moves).forEach(function(move) {
          // actionForm폼 전송
          move.addEventListener("click",function(event){
             event.preventDefault();
             
+            // bno 제거 작업
+            // 목록에서 제목 클릭후 게시물읽기에서 뒤로버튼에 의하여 목록으로 돌아가서
+            // 다시 제목을 클릭하면 , bno 파라미터가 추가되기 때문에 기존 bno 파라미터를 삭제해야 한다
+            document.getElementById("bno").remove();
+
+
+            // <a gerf="#" data-bno="게시물 번호" data-name="값" data-title="값">
             let bno = event.target.dataset.bno;
             // <input type="hidden" name="bno" value="게시물번호">
             // HTML , DOM문법
             const newInput = document.createElement("input");
             newInput.setAttribute("type","hidden");
             newInput.setAttribute("name","bno");
+            newInput.setAttribute("id","bno");
             newInput.setAttribute("value",bno);
             actionForm.appendChild(newInput);
 
