@@ -2,6 +2,96 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.demo.mapper.BoardMapper">
-
+<mapper namespace="com.cjmall.mapper.BoardMapper">
+   
+   <!-- 글쓰기 저장 -->
+   <insert id="register" parameterType="com.cjmall.domain.SBoardVO">
+      INSERT INTO SBOARD(idx, subject, CONTENT, author)
+      VALUES(SEQ_SBOARD.NEXTVAL, #{subject},#{content},#{author})
+   </insert>
+   
+   <select id="getList" resultType="com.cjmall.domain.SBoardVO">
+   		SELECT idx,subject,CONTENT,author,createdate,editdate 
+		FROM BOARD 
+		ORDER BY idx DESC
+   </select>
+   
+   <!-- 공통된 SQL구문작업 : 검색조건 -->
+   <sql id="criteria">
+   		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+   			<foreach collection="typeArr" item="type">
+   				<trim prefix="OR">
+   					<choose>
+   						<when test="type == 'T'.toString()">
+							subject like '%' || #{keyword} || '%'
+   						</when>
+   						<when test="type == 'W'.toString()">
+							author like '%' || #{keyword} || '%'
+   						</when>
+   						<when test="type == 'C'.toString()">
+							content like '%' || #{keyword} || '%'
+   						</when>
+   					</choose>
+   				</trim>
+   			</foreach>
+   		</trim>	
+   
+   </sql>
+   
+   <!-- 게시판  -->
+   <select id="getListWithPaging" resultType="com.cjmall.domain.BoardVO" parameterType="com.cjmall.domain.Criteria">
+   		<![CDATA[
+   		SELECT idx, subject, CONTENT, author, createdate, editdate , readcount
+		FROM (
+    		SELECT /*+ INDEX_DESC(board pk_board) */
+    			ROWNUM RN, idx, subject, CONTENT, author, createdate, editdate , readcount
+    		FROM BOARD 
+    		WHERE
+			]]>
+			
+			<include refid="criteria"></include>
+			
+			<![CDATA[     		
+    		 ROWNUM <= #{pageNum} * #{amount}
+    		)
+		WHERE RN > (#{pageNum} -1) * #{amount}
+		]]> 
+   </select>
+   
+   <!-- 전체 데이터수 -->
+   <select id="getTotelCount" resultType="int">
+   		SELECT COUNT(*) FROM BOARD WHERE 
+   		
+   		<include refid="criteria"></include>
+   		
+   		idx > 0
+   </select>
+   
+   <!-- 게시글 읽기 -->
+   <select id="get" resultType="com.cjmall.domain.BoardVO" parameterType="Long">
+   		SELECT idx,subject,CONTENT,author,createdate,editdate 
+		FROM BOARD 
+		WHERE idx=#{idx}
+   </select>
+   
+   <!-- 조회수 증가작업 -->
+   <update id="readCount" parameterType="Long">
+   		UPDATE BOARD
+		SET readcount = readcount + 1
+		WHERE idx = #{idx}   		
+   </update>
+   
+   <!-- 게시글 수정 -->
+   <update id="modify" parameterType="com.cjmall.domain.BoardVO">
+   		UPDATE BOARD 
+   		SET subject = #{subject} , CONTENT = #{content} ,editdate = SYSDATE 
+   		WHERE idx = #{idx}
+   </update>
+   
+   <!-- 게시글 삭제 -->
+   <delete id="delete" parameterType="Long">
+   		DELETE FROM BOARD
+		WHERE idx =	#{idx}
+   </delete>
+   
 </mapper>
