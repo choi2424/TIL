@@ -43,7 +43,7 @@
 	</bean>	
 	
 	<!-- service 패키지 -->	
-	<context:component-scan base-package="com.cjmall.service" />
+	<context:component-scan base-package="com.cjamall.service" />
 	<!-- mapper 패키지 -->
-	<mybatis-spring:scan base-package="com.cjmall.mapper"/>
+	<mybatis-spring:scan base-package="com.cjamall.mapper"/>
 </beans>
